@@ -7,16 +7,6 @@ const userSchema = z.object({
     .nonempty()
     .max(50, "Username must be less than 50 characters")
     .regex(/^[a-zA-ZÀ-ÿ]+(?:[-\s][a-zA-ZÀ-ÿ]+)*$/, "Invalid characters"),
-  first_name: z
-    .string()
-    .nonempty()
-    .max(50, "First name must be less than 50 characters")
-    .regex(/^[a-zA-ZÀ-ÿ]+(?:[-\s][a-zA-ZÀ-ÿ]+)*$/, "Invalid characters"), // Only accepts letters, spaces, and hyphens in between
-  last_name: z
-    .string()
-    .nonempty()
-    .max(50, "Last name must be less than 50 characters")
-    .regex(/^[a-zA-ZÀ-ÿ]+(?:[-\s][a-zA-ZÀ-ÿ]+)*$/, "Invalid characters"),
   email: z.string().email("Invalid email"),
   password: z
     .string()
@@ -40,11 +30,8 @@ const userSchema = z.object({
 const userParamSchema = z.object({ userId: z.coerce.number().positive() });
 const createUserSchema = userSchema.pick({
   username: true,
-  first_name: true,
-  last_name: true,
   email: true,
   password: true,
-  role_id: true,
 });
 const updateUserSchema = userSchema.partial().omit({ id: true });
 

@@ -12,7 +12,8 @@
     "test": "jest --runInBand --detectOpenHandles"
   },
   "prisma": {
-    "schema": "./prisma/schemas"
+    "schema": "./prisma/schemas",
+    "seed": "ts-node ./prisma/seeders/database.seeder.ts"
   },
   "keywords": [],
   "author": "",

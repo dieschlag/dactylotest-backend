@@ -46,8 +46,6 @@ export async function userFactory() {
     await prisma.user.create({
       data: {
         username: user.username,
-        first_name: user.first_name,
-        last_name: user.last_name,
         email: user.email,
         password: hashedPassword,
       },
