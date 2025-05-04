@@ -12,7 +12,7 @@
     "test": "jest --runInBand --detectOpenHandles"
   },
   "prisma": {
-    "schema": "./prisma"
+    "schema": "./prisma/schemas"
   },
   "keywords": [],
   "author": "",
