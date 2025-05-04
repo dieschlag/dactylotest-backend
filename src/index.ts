@@ -3,8 +3,14 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { jsonSchemaTransform } from "fastify-type-provider-zod";
 import dotenv from "dotenv";
+import { readFileSync } from "fs";
+import path from "path";
+import jwt from "@fastify/jwt";
+import cookie from "@fastify/cookie";
 
 dotenv.config();
+
+export let jwtUser: { id: number; email: string } = { id: 0, email: "" };
 
 export const fastify = Fastify({
   logger: ["production", "staging", "test"].includes(
@@ -25,8 +31,27 @@ export const fastify = Fastify({
       },
 });
 
+fastify.register(jwt, {
+  secret: {
+    private: readFileSync(
+      path.join(__dirname, "../storage/certs/jwt-rsa-4096-private.pem"),
+      "utf8"
+    ),
+    public: readFileSync(
+      path.join(__dirname, "../storage/certs/jwt-rsa-4096-public.pem"),
+      "utf8"
+    ),
+  },
+  sign: { algorithm: "RS256" },
+  cookie: { cookieName: "access_token", signed: false },
+});
+
 fastify.get("/ping", async (request, reply) => {
   return "pong\n";
+});
+
+fastify.register(cookie, {
+  hook: "preHandler",
 });
 
 fastify.register(swagger, {
