@@ -1,7 +1,12 @@
-import Fastify from "fastify";
+import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
-import { jsonSchemaTransform } from "fastify-type-provider-zod";
+import AutoLoad from "@fastify/autoload";
+import {
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+} from "fastify-type-provider-zod";
 import dotenv from "dotenv";
 import { readFileSync } from "fs";
 import path from "path";
@@ -31,6 +36,10 @@ export const fastify = Fastify({
       },
 });
 
+// Add schema validator and serializer
+fastify.setValidatorCompiler(validatorCompiler);
+fastify.setSerializerCompiler(serializerCompiler);
+
 fastify.register(jwt, {
   secret: {
     private: readFileSync(
@@ -44,10 +53,6 @@ fastify.register(jwt, {
   },
   sign: { algorithm: "RS256" },
   cookie: { cookieName: "access_token", signed: false },
-});
-
-fastify.get("/ping", async (request, reply) => {
-  return "pong\n";
 });
 
 fastify.register(cookie, {
@@ -84,6 +89,14 @@ fastify.register(swaggerUi, {
 });
 fastify.get("/", async (request, reply) => {
   reply.redirect("/docs");
+});
+
+console.log(__dirname);
+// AutoLoad public routes dynamically
+fastify.register(AutoLoad, {
+  dir: path.join(__dirname, "../routes/public"),
+  routeParams: true,
+  options: { prefix: "/api" },
 });
 
 const PORT = process.env.PORT || 3000;
