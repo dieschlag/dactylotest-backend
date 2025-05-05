@@ -55,6 +55,31 @@ fastify.register(jwt, {
   cookie: { cookieName: "access_token", signed: false },
 });
 
+fastify.register(async function privateRoutes(plugin, opts) {
+  plugin.addHook(
+    "preHandler",
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      try {
+        const decoded = await request.jwtVerify<{
+          id: number;
+          email: string;
+        }>();
+        jwtUser = decoded; // user from JWT token
+        request.user = decoded; // for subsequent request, user id and email will be available
+      } catch (err) {
+        return reply.status(401).send({
+          message: "Invalid credentials",
+        });
+      }
+    }
+  );
+  plugin.register(AutoLoad, {
+    dir: path.join(__dirname, "routes/private"),
+    routeParams: true,
+    options: { prefix: "/api" },
+  });
+});
+
 fastify.register(cookie, {
   hook: "preHandler",
 });
