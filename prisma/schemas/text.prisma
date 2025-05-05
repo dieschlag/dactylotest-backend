@@ -1,0 +1,4 @@
+model Text {
+  id                Int       @id @default(autoincrement())
+  paragraph        String
+}
