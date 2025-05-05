@@ -74,7 +74,7 @@ fastify.register(async function privateRoutes(plugin, opts) {
     }
   );
   plugin.register(AutoLoad, {
-    dir: path.join(__dirname, "routes/private"),
+    dir: path.join(__dirname, "../routes/private"),
     routeParams: true,
     options: { prefix: "/api" },
   });

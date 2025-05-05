@@ -1,4 +1,6 @@
-model Text {
+model Quote {
   id                Int       @id @default(autoincrement())
   paragraph        String
+
+  performances Performance[]
 }

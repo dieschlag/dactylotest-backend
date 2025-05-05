@@ -1,9 +1,9 @@
-model ProjectMemberRight {
+model Performance {
   id                Int @id @default(autoincrement())
   user_id           Int
   text_id           Int
   time              Int
 
   User User @relation(fields: [user_id], references: [id])
-  Text Text @relation(fields: [text_id], references: [id])
+  Quote Quote @relation(fields: [text_id], references: [id])
 }

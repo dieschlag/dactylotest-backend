@@ -9,4 +9,6 @@ model User {
   updated_by        Int?
   deleted_at        DateTime?
   deleted_by        Int?
+
+  performances Performance[] // 👈 relation inverse
 }
