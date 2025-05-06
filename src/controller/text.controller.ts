@@ -1,7 +1,8 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import APIResponseDTO from "../dtos/api.dto";
+import * as textDAO from "../dao/text.dao";
 
-export const getProjectById = async (
+export const getRandomText = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {

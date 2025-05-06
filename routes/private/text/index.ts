@@ -1,15 +1,10 @@
 import { FastifyInstance } from "fastify";
+import * as TextController from "../../../src/controller/text.controller";
+import * as z from "zod";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
 
 export default async function projectRoutes(fastify: FastifyInstance) {
-  fastify.get(
-    "/",
-    {
-      schema: {
-        tags: ["Projects"],
-        description: "Get all Projects",
-        summary: "Get all Projects",
-      },
-    },
-    TextController.getRandomText
-  );
+  fastify
+    .withTypeProvider<ZodTypeProvider>()
+    .get("/", TextController.getRandomText);
 }

@@ -1,9 +1,9 @@
 model Performance {
   id                Int @id @default(autoincrement())
   user_id           Int
-  text_id           Int
-  time              Int
+  quote_id          Int
+  wpm               Int
 
   User User @relation(fields: [user_id], references: [id])
-  Quote Quote @relation(fields: [text_id], references: [id])
+  Quote Quote @relation(fields: [quote_id], references: [id])
 }

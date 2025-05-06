@@ -36,54 +36,6 @@ export const fastify = Fastify({
       },
 });
 
-// Add schema validator and serializer
-fastify.setValidatorCompiler(validatorCompiler);
-fastify.setSerializerCompiler(serializerCompiler);
-
-fastify.register(jwt, {
-  secret: {
-    private: readFileSync(
-      path.join(__dirname, "../storage/certs/jwt-rsa-4096-private.pem"),
-      "utf8"
-    ),
-    public: readFileSync(
-      path.join(__dirname, "../storage/certs/jwt-rsa-4096-public.pem"),
-      "utf8"
-    ),
-  },
-  sign: { algorithm: "RS256" },
-  cookie: { cookieName: "access_token", signed: false },
-});
-
-fastify.register(async function privateRoutes(plugin, opts) {
-  plugin.addHook(
-    "preHandler",
-    async function (request: FastifyRequest, reply: FastifyReply) {
-      try {
-        const decoded = await request.jwtVerify<{
-          id: number;
-          email: string;
-        }>();
-        jwtUser = decoded; // user from JWT token
-        request.user = decoded; // for subsequent request, user id and email will be available
-      } catch (err) {
-        return reply.status(401).send({
-          message: "Invalid credentials",
-        });
-      }
-    }
-  );
-  plugin.register(AutoLoad, {
-    dir: path.join(__dirname, "../routes/private"),
-    routeParams: true,
-    options: { prefix: "/api" },
-  });
-});
-
-fastify.register(cookie, {
-  hook: "preHandler",
-});
-
 fastify.register(swagger, {
   openapi: {
     info: {
@@ -112,8 +64,28 @@ fastify.register(swaggerUi, {
     withCredentials: true,
   },
 });
-fastify.get("/", async (request, reply) => {
-  reply.redirect("/docs");
+
+// Add schema validator and serializer
+fastify.setValidatorCompiler(validatorCompiler);
+fastify.setSerializerCompiler(serializerCompiler);
+
+fastify.register(jwt, {
+  secret: {
+    private: readFileSync(
+      path.join(__dirname, "../storage/certs/jwt-rsa-4096-private.pem"),
+      "utf8"
+    ),
+    public: readFileSync(
+      path.join(__dirname, "../storage/certs/jwt-rsa-4096-public.pem"),
+      "utf8"
+    ),
+  },
+  sign: { algorithm: "RS256" },
+  cookie: { cookieName: "access_token", signed: false },
+});
+
+fastify.register(cookie, {
+  hook: "preHandler",
 });
 
 console.log(__dirname);
@@ -122,6 +94,35 @@ fastify.register(AutoLoad, {
   dir: path.join(__dirname, "../routes/public"),
   routeParams: true,
   options: { prefix: "/api" },
+});
+
+fastify.register(async function privateRoutes(plugin, opts) {
+  plugin.addHook(
+    "preHandler",
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      try {
+        const decoded = await request.jwtVerify<{
+          id: number;
+          email: string;
+        }>();
+        jwtUser = decoded; // user from JWT token
+        request.user = decoded; // for subsequent request, user id and email will be available
+      } catch (err) {
+        return reply.status(401).send({
+          message: "Invalid credentials",
+        });
+      }
+    }
+  );
+  plugin.register(AutoLoad, {
+    dir: path.join(__dirname, "../routes/private"),
+    routeParams: true,
+    options: { prefix: "/api" },
+  });
+});
+
+fastify.get("/", async (request, reply) => {
+  reply.redirect("/docs");
 });
 
 const PORT = process.env.PORT || 3000;
