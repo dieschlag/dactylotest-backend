@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import * as TextController from "../../../src/controller/text.controller";
+import * as TextController from "../../../src/controller/quote.controller";
 import * as z from "zod";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 

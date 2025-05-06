@@ -88,7 +88,6 @@ fastify.register(cookie, {
   hook: "preHandler",
 });
 
-console.log(__dirname);
 // AutoLoad public routes dynamically
 fastify.register(AutoLoad, {
   dir: path.join(__dirname, "../routes/public"),
