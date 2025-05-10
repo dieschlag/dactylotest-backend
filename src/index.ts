@@ -1,6 +1,7 @@
 import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
+import cors from "@fastify/cors";
 import AutoLoad from "@fastify/autoload";
 import {
   jsonSchemaTransform,
@@ -69,6 +70,11 @@ fastify.register(swaggerUi, {
 fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler);
 
+fastify.register(cors, {
+  origin: process.env.CORS_WHITELIST?.split(","),
+  credentials: true,
+});
+
 fastify.register(jwt, {
   secret: {
     private: readFileSync(
@@ -105,6 +111,7 @@ fastify.register(async function privateRoutes(plugin, opts) {
           email: string;
         }>();
         jwtUser = decoded; // user from JWT token
+        console.log(jwtUser);
         request.user = decoded; // for subsequent request, user id and email will be available
       } catch (err) {
         return reply.status(401).send({
