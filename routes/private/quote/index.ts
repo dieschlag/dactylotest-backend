@@ -6,5 +6,5 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 export default async function projectRoutes(fastify: FastifyInstance) {
   fastify
     .withTypeProvider<ZodTypeProvider>()
-    .get("/", TextController.getRandomText);
+    .get("", TextController.getRandomText);
 }

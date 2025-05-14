@@ -1,7 +1,7 @@
 import { Quote } from "@prisma/client";
 import prisma from "../utils/prisma";
 
-export const findRandom = async (): Promise<string | null> => {
+export const findRandom = async (): Promise<Quote | null> => {
   const count = await prisma.quote.count();
   if (count === 0) return "";
   const randomOffset = Math.floor(Math.random() * count);
@@ -10,5 +10,5 @@ export const findRandom = async (): Promise<string | null> => {
     skip: randomOffset,
     take: 1,
   });
-  return quote.paragraph;
+  return quote;
 };
