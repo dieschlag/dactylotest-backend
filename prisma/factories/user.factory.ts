@@ -6,25 +6,11 @@ const prisma = new PrismaClient();
 export async function userFactory() {
   const usersToSeed = [
     {
-      username: "Maxime Leboeuf",
-      first_name: "Maxime",
-      last_name: "Leboeuf",
-      email: "maxime@bi-kay.com",
-      password: "Password123",
-    },
-    {
-      username: "Louis Vezia",
-      first_name: "Louis",
-      last_name: "Vezia",
-      email: "louis@bi-kay.com",
-      password: "Password123",
-    },
-    {
-      username: "Mateo Dischler",
-      first_name: "Mateo",
-      last_name: "Dischler",
-      email: "mateo@bi-kay.com",
-      password: "Password123",
+      username: "User1",
+      first_name: "Test",
+      last_name: "TestLastName",
+      email: "test@test.com",
+      password: "Test123456",
     },
   ];
 
