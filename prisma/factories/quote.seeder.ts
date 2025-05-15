@@ -5,34 +5,34 @@ const prisma = new PrismaClient();
 export async function quoteFactory() {
   const quotesToSeed = [
     {
-      paragraph: "Ceci est un premier pragraphe",
+      paragraph: "Ceci est un premier paragraphe",
     },
     {
-      paragraph: "Ceci est un deuxième pragraphe",
+      paragraph: "Ceci est un deuxième paragraphe",
     },
     {
-      paragraph: "Ceci est un troisième pragraphe",
+      paragraph: "Ceci est un troisième paragraphe",
     },
     {
-      paragraph: "Ceci est un quatrième pragraphe",
+      paragraph: "Ceci est un quatrième paragraphe",
     },
     {
-      paragraph: "Ceci est un cinquième pragraphe",
+      paragraph: "Ceci est un cinquième paragraphe",
     },
     {
-      paragraph: "Ceci est un sixième pragraphe",
+      paragraph: "Ceci est un sixième paragraphe",
     },
     {
-      paragraph: "Ceci est un septième pragraphe",
+      paragraph: "Ceci est un septième paragraphe",
     },
     {
-      paragraph: "Ceci est un huitième pragraphe",
+      paragraph: "Ceci est un huitième paragraphe",
     },
     {
-      paragraph: "Ceci est un neuvième pragraphe",
+      paragraph: "Ceci est un neuvième paragraphe",
     },
     {
-      paragraph: "Ceci est un dixième pragraphe",
+      paragraph: "Ceci est un dixième paragraphe",
     },
   ];
 
